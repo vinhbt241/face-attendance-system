@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Student{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('student_create') }}" method="post">
+    <label for="student_name">Student Name:</label>
+    <input type="text" name="student_name" id="student_name">
+    <label for="student_school_id">Student School ID:</label>
+    <input type="text" name="student_school_id" id="student_school_id">
+    <input type="submit" value="Add Student"/>
+</form>
+{% endblock %}

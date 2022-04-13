@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+<strong>List of Students:</strong>
+<ul>
+    {% for student in students: %}
+    <li>
+        <ul>
+            <li>Student Name: {{ student.student_name }}</li>
+            <li>Student ID: {{ student.student_school_id }}</li>
+            <li>Have Images: {{ student.images_uploaded }}</li>
+        </ul>
+        <a href="{{ url_for('student_collect_images', student_id=student.id) }}">Upload Images For Student</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

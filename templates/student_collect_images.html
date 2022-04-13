@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Collect Photos{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('student_upload_imgs') }}" enctype="multipart/form-data" method="POST">
+   <label for="student_imgs">Upload 10 Images Of Student's Face:</label>
+   <input type="file" name="student_imgs" id="student_imgs" multiple=""/>
+   <input type="submit" value="Submit"/>
+   <input type="hidden" name="student_id" value='{{ student_id }}'>
+</form>
+{% endblock %}

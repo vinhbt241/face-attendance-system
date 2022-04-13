@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Subject{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('subject_create') }}" method="post">
+    <label for="subject_name">Subject Name:</label>
+    <input type="text" name="subject_name" id="subject_name">
+    <label for="subject_school_id">Subject School ID:</label>
+    <input type="text" name="subject_school_id" id="subject_school_id">
+    <label for="start_at">Start At:</label>
+    <input type="time" name="start_at" id="start_at">
+    <label for="end_at">End At:</label>
+    <input type="time" name="end_at" id="end_at">
+    <input type="submit" value="Add Subject"/>
+</form>
+{% endblock %}

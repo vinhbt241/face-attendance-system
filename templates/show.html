@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Student's Images{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('index') }}">Home</a>
+<br>
+<ul>
+  {% for student_img_data in student_imgs_data %}
+    <li>
+      <img src="data:image/png;base64,{{ student_img_data }}">
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

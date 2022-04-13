@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Subjects{% endblock %}
+
+{% block content %}
+<strong>List of Subjects:</strong>
+<ul>
+    {% for subject in subjects: %}
+    <li>
+        <ul>
+            <li>Subject Name: {{ subject.subject_name }}</li>
+            <li>Subject ID: {{ subject.subject_school_id }}</li>
+            <li>Start At: {{ subject.start_at }}</li>
+            <li>End At: {{ subject.end_at }}</li>
+        </ul>
+        <a href="{{ url_for('subject_students', subject_id=subject.id) }}">List Of Students</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
