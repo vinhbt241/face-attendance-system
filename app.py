@@ -158,8 +158,8 @@ def get_student_school_id_in_subject(subject_school_id):
 
     return jsonify({"all_school_id": id_list,
                     "subject_name": subject.subject_name,
-                    "start_at": subject.start_at,
-                    "end_at": subject.end_at})
+                    "start_at": subject.start_at.strftime("%I:%M %p"),
+                    "end_at": subject.end_at.strftime("%I:%M %p")})
 
 
 if __name__ == "__main__":
