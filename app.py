@@ -156,10 +156,22 @@ def get_student_school_id_in_subject(subject_school_id):
         student_school_id = student.student_school_id
         id_list.append(student_school_id)
 
-    return jsonify({"all_school_id": id_list,
-                    "subject_name": subject.subject_name,
-                    "start_at": subject.start_at.strftime("%I:%M %p"),
-                    "end_at": subject.end_at.strftime("%I:%M %p")})
+    return jsonify({"all_school_id": id_list})
+
+
+@app.route('/get_subjects')
+def get_subjects():
+    subjects = db.session.query(Subject).all()
+
+    subject_list = []
+
+    for subject in subjects:
+        subject_list.append({"subject_name": subject.subject_name,
+                             "subject_school_id": subject.subject_school_id,
+                             "start_at": subject.start_at.strftime("%H:%M"),
+                             "end_at": subject.end_at.strftime("%H:%M")})
+
+    return jsonify({"subjects": subject_list})
 
 
 if __name__ == "__main__":
