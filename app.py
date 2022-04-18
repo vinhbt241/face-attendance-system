@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, url_for, Response, redirect, flash, jsonify
 from db import db_init, db
-from models import Subject, Student, Img
+from models import Subject, Student, Img, Teacher
 from werkzeug.utils import secure_filename
 from datetime import datetime
 
@@ -46,11 +46,12 @@ def subject_create():
     return redirect(url_for('subject_index'))
 
 
-@app.route('/subject/students/<int:subject_id>')
-def subject_students(subject_id):
+@app.route('/subject/teachers_and_students/<int:subject_id>')
+def subject_teachers_and_students(subject_id):
     subject = db.session.query(Subject).filter_by(id=subject_id).scalar()
     students = subject.students
-    return render_template('subject_students.html', subject_id=subject_id, students=students)
+    teachers = subject.teachers
+    return render_template('subject_teachers_and_students.html', subject=subject, students=students, teachers=teachers)
 
 
 @app.route('/subject/add_student', methods=["POST"])
@@ -60,15 +61,58 @@ def subject_add_student():
 
     if student is None:
         flash("Student School ID don't exists!")
-        return redirect(url_for('subject_students', subject_id=subject.id))
+        return redirect(url_for('subject_teachers_and_students', subject_id=subject.id))
     elif not student.images_uploaded:
         flash("Student must have images before add to class!")
-        return redirect(url_for('subject_students', subject_id=subject.id))
+        return redirect(url_for('subject_teachers_and_students', subject_id=subject.id))
 
     subject.students.append(student)
     db.session.commit()
     flash("Student Added To Subject!")
-    return redirect(url_for('subject_students', subject_id=subject.id))
+    return redirect(url_for('subject_teachers_and_students', subject_id=subject.id))
+
+
+@app.route('/subject/add_teacher', methods=["POST"])
+def subject_add_teacher():
+    subject = db.session.query(Subject).filter_by(id=request.form.get('subject_id')).scalar()
+    teacher = db.session.query(Teacher).filter_by(teacher_school_id=request.form.get('teacher_school_id')).scalar()
+
+    if teacher is None:
+        flash("Student ID don't exists!")
+        return redirect(url_for('subject_teachers_and_students', subject_id=subject.id))
+
+    subject.teachers.append(teacher)
+    db.session.commit()
+    flash("Teacher Added To Subject!")
+    return redirect(url_for('subject_teachers_and_students', subject_id=subject.id))
+
+
+@app.route('/teacher/index')
+def teacher_index():
+    return render_template('teacher_index.html', teachers=Teacher.query.all())
+
+
+@app.route('/teacher/new')
+def teacher_new():
+    return render_template('teacher_new.html')
+
+
+@app.route('/teacher/create', methods=["POST"])
+def teacher_create():
+    teacher = Teacher(teacher_name=request.form.get('teacher_name'),
+                      teacher_email=request.form.get('teacher_email'),
+                      teacher_school_id=request.form.get('teacher_school_id'))
+    teacher_school_id_exists = db.session.query(Teacher.id).filter_by(teacher_school_id=teacher.teacher_school_id).scalar() is not None
+
+    if teacher_school_id_exists:
+        flash('Teacher School ID must be unique!')
+        return render_template('teacher_new.html')
+
+    db.session.add(teacher)
+    db.session.commit()
+    flash('Teacher Added!')
+
+    return redirect(url_for('teacher_index'))
 
 
 @app.route('/student/index')
@@ -157,6 +201,8 @@ def get_student_school_id_in_subject(subject_school_id):
         id_list.append(student_school_id)
 
     return jsonify({"all_school_id": id_list})
+
+# Write route to get teacher's emails in chosen subject
 
 
 @app.route('/get_subjects')

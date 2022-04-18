@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ subject.subject_name }} Teachers And Students List{% endblock %}
+
+{% block content %}
+<div>
+    <strong>Subject information</strong>
+    <ul>
+        <li>Subject Name: {{ subject.subject_name }}</li>
+        <li>Subject School ID: {{ subject.subject_school_id }}</li>
+    </ul>
+</div>
+
+<form action="{{ url_for('subject_add_teacher') }}" method="post">
+    <label for="teacher_school_id">Teacher School ID:</label>
+    <input type="text" name="teacher_school_id" id="teacher_school_id">
+    <input type="hidden" name="subject_id" value='{{ subject.id }}'>
+    <input type="submit" value="Add Teacher"/>
+</form>
+
+<form action="{{ url_for('subject_add_student') }}" method="post">
+    <label for="student_school_id">Student School ID:</label>
+    <input type="text" name="student_school_id" id="student_school_id">
+    <input type="hidden" name="subject_id" value='{{ subject.id }}'>
+    <input type="submit" value="Add Student"/>
+</form>
+
+<strong>Teachers Located For This Subjects: </strong>
+<ul>
+    {% for teacher in teachers: %}
+    <li>
+        <ul>
+            <li>Teacher Name: {{ teacher.teacher_name }}</li>
+            <li>Teacher ID: {{ teacher.student_school_id }}</li>
+            <li>Teacher Email: {{ teacher.teacher_email }}</li>
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+
+<strong>Students Attend This Subject: </strong>
+<ul>
+    {% for student in students: %}
+    <li>
+        <ul>
+            <li>Student Name: {{ student.student_name }}</li>
+            <li>Student ID: {{ student.student_school_id }}</li>
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

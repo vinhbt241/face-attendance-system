@@ -10,10 +10,10 @@
         <ul>
             <li>Subject Name: {{ subject.subject_name }}</li>
             <li>Subject ID: {{ subject.subject_school_id }}</li>
-            <li>Start At: {{ subject.start_at.strftime("%I:%M %p") }}</li>
-            <li>End At: {{ subject.end_at.strftime("%I:%M %p") }}</li>
+            <li>Start At: {{ subject.start_at.strftime("%H:%M") }}</li>
+            <li>End At: {{ subject.end_at.strftime("%H:%M") }}</li>
         </ul>
-        <a href="{{ url_for('subject_students', subject_id=subject.id) }}">List Of Students</a>
+        <a href="{{ url_for('subject_teachers_and_students', subject_id=subject.id) }}">List Of Students</a>
     </li>
     {% endfor %}
 </ul>

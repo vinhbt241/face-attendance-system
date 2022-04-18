@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Teacher{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('teacher_create') }}" method="post">
+    <label for="teacher_name">Teacher Name:</label>
+    <input type="text" name="teacher_name" id="teacher_name">
+    <label for="teacher_school_id">Teacher School ID:</label>
+    <input type="text" name="teacher_school_id" id="teacher_school_id">
+    <label for="teacher_email">Teacher Email:</label>
+    <input type="text" name="teacher_email" id="teacher_email">
+    <input type="submit" value="Add Teacher"/>
+</form>
+{% endblock %}
