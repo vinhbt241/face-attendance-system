@@ -202,7 +202,19 @@ def get_student_school_id_in_subject(subject_school_id):
 
     return jsonify({"all_school_id": id_list})
 
+
 # Write route to get teacher's emails in chosen subject
+@app.route('/get_teacher_email_list_in_subject/<string:subject_school_id>')
+def get_teacher_mail_list_in_subject(subject_school_id):
+    subject = db.session.query(Subject).filter_by(subject_school_id=subject_school_id).scalar()
+    teachers = subject.teachers
+
+    mail_list = []
+    for teacher in teachers:
+        teacher_email = teacher.teacher_email
+        mail_list.append(teacher_email)
+
+    return jsonify({"teacher_email_list": mail_list})
 
 
 @app.route('/get_subjects')

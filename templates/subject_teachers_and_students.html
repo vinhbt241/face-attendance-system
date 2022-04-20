@@ -8,6 +8,8 @@
     <ul>
         <li>Subject Name: {{ subject.subject_name }}</li>
         <li>Subject School ID: {{ subject.subject_school_id }}</li>
+        <li>Start Time: {{ subject.start_at.strftime("%H:%M") }}</li>
+        <li>End Time: {{ subject.end_at.strftime("%H:%M") }}</li>
     </ul>
 </div>
 
